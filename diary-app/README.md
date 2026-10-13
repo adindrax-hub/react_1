@@ -1,56 +1,29 @@
-# Welcome to your Expo app 👋
+📓 Diary App
+Diary App adalah sebuah aplikasi mobile pencatatan keseharian sederhana yang dibangun menggunakan React Native dan Expo CLI. Aplikasi ini menyajikan antarmuka daftar catatan harian pengguna yang rapi, interaktif, dan responsif.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Setiap catatan ditampilkan dalam bentuk kartu yang memuat ikon representasi perasaan (mood), judul, tanggal, dan pratinjau teks. Saat pengguna menekan salah satu kartu, sebuah jendela pop-up (Modal) akan muncul untuk menampilkan isi cerita lengkap beserta gambar hero image.
+✨ Fitur Utama
+Responsive Layout: Tampilan daftar otomatis menyesuaikan ukuran layar. Menggunakan 1 kolom pada layar smartphone (potret) dan berubah menjadi grid 2 kolom pada layar yang lebih lebar (>= 600px) seperti tablet atau web browser.
+Interactive Cards: Kartu catatan memberikan efek sentuhan visual (ripple effect) yang nyaman saat ditekan.
+Detail Modal: Membaca catatan penuh tidak perlu berpindah halaman, melainkan cukup melalui pop-up modal yang dinamis.
+Design Tokens: Desain UI (warna, jarak, dan ukuran huruf) diatur secara terpusat untuk menjaga konsistensi tampilan.
+Local & Remote Assets: Mendukung pemanggilan gambar dari internet (URL) maupun gambar yang disimpan secara lokal (seperti foto profil avatar dan ikon mood).
+🚀 Cara Menjalankan Aplikasi
+Prasyarat: Pastikan Anda sudah menginstal Node.js di komputer Anda dan aplikasi Expo Go di HP Anda.
 
-## Get started
+Langkah-langkah:
 
-1. Install dependencies
+Buka terminal atau Command Prompt pada Visual Studio Code, lalu pastikan Anda sudah berada di dalam folder proyek:
 
-   ```bash
-   npm install
-   ```
+cd diary-app
 
-2. Start the app
+Jalankan development server Expo dengan perintah:
 
-   ```bash
-   npx expo start
-   ```
+npx expo start
 
-In the output, you'll find options to open the app in a
+Pilih salah satu cara berikut untuk melihat aplikasi:
+Melalui Smartphone: Buka aplikasi Expo Go di HP Anda, lalu scan QR Code yang muncul di terminal. (Pastikan HP dan laptop terhubung ke jaringan Wi-Fi yang sama).
+Melalui Emulator Android: Pastikan emulator Android Studio sudah menyala, lalu tekan tombol a pada keyboard di terminal.
+Melalui Web Browser: Tekan tombol w pada keyboard di terminal untuk melihat versi web responsifnya (untuk menguji fitur layout 2 kolom).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Dibangun menggunakan React Native & Expo
