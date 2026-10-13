@@ -1,107 +1,122 @@
-import React from "react";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import React, { useMemo, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import DiaryCard from "../components/DiaryCard";
+import DiaryDetailModal from "../components/DiaryDetailModal";
+import { COLORS, SPACE, TYPO, BREAKPOINTS } from "../styles/tokens";
 
-// IMPORT GAMBAR LOKAL
-// Pastikan nama file dan letaknya sesuai dengan yang ada di folder Anda!
-const avatarImg = require("../../assets/avatar.png");
-const lokalSenangImg = require("../../assets/moods/senang.png");
-
-const diaryEntries = [
+// Menyertakan 5 entri sesuai syarat tugas praktikum
+const DATA = [
   {
     id: 1,
     title: "Pagi yang Tenang",
     date: "2026-10-12",
-    preview:
-      "Hari ini aku bangun lebih pagi dan berjalan kaki 20 menit. Udara terasa sejuk...",
-    moodUri: "https://picsum.photos/seed/calm/80",
-    borderColor: "#4ade80", // Hijau untuk tenang
+    preview: "Bangun lebih pagi dan jalan kaki...",
+    body: "Hari ini aku bangun lebih pagi dan berjalan kaki 20 menit. Udara terasa sejuk dan menyegarkan pikiran sebelum memulai hari.",
+    moodUri: "https://picsum.photos/seed/happy/200",
+    heroUri: "https://picsum.photos/seed/happyhero/800/450",
   },
   {
     id: 2,
     title: "Produktif di Kampus",
     date: "2026-10-11",
-    preview:
-      "Menyelesaikan modul praktikum dan berdiskusi dengan tim. Banyak insight baru...",
-    moodUri: "https://picsum.photos/seed/focus/80",
-    borderColor: "#3b82f6", // Biru untuk produktif
+    preview: "Menyelesaikan modul praktikum...",
+    body: "Menyelesaikan modul praktikum dan berdiskusi dengan tim. Banyak insight baru yang didapatkan dari dosen hari ini.",
+    moodUri: "https://picsum.photos/seed/focus/200",
+    heroUri: "https://picsum.photos/seed/focushero/800/450",
   },
   {
     id: 3,
-    title: "Kumpul Bareng Teman",
+    title: "Senja di Taman",
     date: "2026-10-10",
-    preview:
-      "Akhirnya bisa ngobrol santai lagi bareng teman-teman di kafe favorit.",
-    moodSource: lokalSenangImg, // MENGGUNAKAN GAMBAR LOKAL
-    borderColor: "#f59e0b", // Kuning/Orange untuk senang
+    preview: "Membaca buku favorit di taman...",
+    body: "Menikmati senja sambil membaca buku favorit. Warna langit sangat indah, rasanya sangat tenang.",
+    moodUri: "https://picsum.photos/seed/calm/200",
+    heroUri: "https://picsum.photos/seed/calmhero/800/450",
   },
   {
     id: 4,
-    title: "Kehujanan di Jalan",
+    title: "Hujan Deras",
     date: "2026-10-09",
-    preview:
-      "Lupa bawa jas hujan saat pulang. Terpaksa berteduh cukup lama di minimarket.",
-    moodUri: "https://picsum.photos/seed/sad/80",
-    borderColor: "#94a3b8", // Abu-abu untuk sedih/murung
+    preview: "Terjebak hujan saat pulang...",
+    body: "Lupa membawa jas hujan sehingga terpaksa berteduh di minimarket cukup lama sambil minum kopi hangat.",
+    moodUri: "https://picsum.photos/seed/sad/200",
+    heroUri: "https://picsum.photos/seed/sadhero/800/450",
   },
   {
     id: 5,
     title: "Ujian Berjalan Lancar",
     date: "2026-10-08",
-    preview:
-      "Syukurlah persiapan semalaman membuahkan hasil. Soal ujiannya bisa dijawab dengan baik.",
-    moodUri: "https://picsum.photos/seed/happy/80",
-    borderColor: "#ec4899", // Pink untuk bahagia
+    preview: "Persiapan semalaman membuahkan hasil...",
+    body: "Syukurlah persiapan semalaman membuahkan hasil. Soal ujiannya bisa dijawab dengan baik dan tepat waktu.",
+    moodUri: "https://picsum.photos/seed/excited/200",
+    heroUri: "https://picsum.photos/seed/excitedhero/800/450",
   },
 ];
 
 export default function DiaryListScreen() {
-  return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* HEADER DENGAN AVATAR PENGGUNA */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Buku Harian</Text>
-        <Image source={avatarImg} style={styles.avatar} />
-      </View>
+  const { width } = useWindowDimensions();
+  const twoCols = width >= BREAKPOINTS.tablet;
+  const [selected, setSelected] = useState(null);
 
-      {/* RENDER DAFTAR KARTU */}
-      {diaryEntries.map((entry) => (
-        <DiaryCard
-          key={entry.id}
-          title={entry.title}
-          date={entry.date}
-          preview={entry.preview}
-          moodUri={entry.moodUri}
-          moodSource={entry.moodSource}
-          borderColor={entry.borderColor}
-        />
-      ))}
-    </ScrollView>
+  const keyForCols = useMemo(() => (twoCols ? "grid2" : "list1"), [twoCols]);
+
+  const renderItem = ({ item }) => (
+    <View style={[styles.itemWrap, twoCols && styles.itemWrap2]}>
+      <DiaryCard
+        title={item.title}
+        date={item.date}
+        preview={item.preview}
+        moodUri={item.moodUri}
+        variant={twoCols ? "grid" : "list"}
+        onPress={() => setSelected(item)}
+      />
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Buku Harian</Text>
+
+      <FlatList
+        key={keyForCols}
+        data={DATA}
+        numColumns={twoCols ? 2 : 1}
+        keyExtractor={(it) => String(it.id)}
+        renderItem={renderItem}
+        columnWrapperStyle={twoCols ? { gap: SPACE.m } : undefined}
+        contentContainerStyle={{
+          padding: SPACE.l,
+          gap: SPACE.m,
+          paddingTop: SPACE.m,
+        }}
+        ListEmptyComponent={<Text style={styles.empty}>Belum ada entri.</Text>}
+      />
+
+      <DiaryDetailModal
+        visible={!!selected}
+        entry={selected}
+        onClose={() => setSelected(null)}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
-  content: {
-    padding: 16,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  headerTitle: {
-    fontSize: 24,
+  container: { flex: 1, backgroundColor: COLORS.surface },
+  header: {
+    fontSize: TYPO.h1,
     fontWeight: "700",
+    paddingHorizontal: SPACE.l,
+    paddingTop: SPACE.l,
+    color: COLORS.text,
   },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "#e5e7eb", // Warna dasar kalau gambar telat dimuat
-  },
+  itemWrap: { flex: 1 },
+  itemWrap2: { flex: 1 / 2 },
+  empty: { textAlign: "center", color: COLORS.muted, marginTop: 40 },
 });
